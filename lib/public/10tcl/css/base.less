@@ -1,0 +1,50 @@
+/* classes */
+.animated    { .animation; }
+.rounded     { .round; }
+.opaque      { .opacity; }
+.transparent { .opacity(0); }
+.with-shadow { .shadow; }
+.hidden      { display: none; }
+
+/* mixins */
+.auto-gradient(@color) {
+    @end: darken(@color, 15%);
+    .gradient(@color, @end);
+}
+
+.gradient(@begin, @end) {
+    background-image: -ms-linear-gradient(top, @begin 0%, @end 100%); /* IE10 */
+    background-image: -moz-linear-gradient(top, @begin 0%, @end 100%); /* Mozilla Firefox */
+    background-image: -o-linear-gradient(top, @begin 0%, @end 100%); /* Opera */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, @begin), color-stop(1, @end)); /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-linear-gradient(top, @begin 0%, @end 100%); /* Webkit (Chrome 11+) */
+    background-image: linear-gradient(top, @begin 0%, @end 100%); /* Proposed W3C Markup */
+    filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='@begin', endColorstr='@end'); /* IE6 & IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='@begin', endColorstr='@end')"; /* IE8 */
+}
+
+.round(@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.opacity(@opacity: 90) {
+  zoom: 1;
+  filter: alpha(opacity=@opacity);
+  opacity: @opacity / 100;
+}
+
+.shadow(@size: 5px, @color: darken(gray, 5%)) {
+    -moz-box-shadow: @size @size @size @color; /* Firefox */
+    -webkit-box-shadow: @size @size @size @color; /* Safari, Chrome */
+    box-shadow: @size @size @size @color; /* CSS3 */
+}
+
+.animation(@time: 0.3s) {
+    -webkit-transition:all @time ease-in-out;
+    -moz-transition:all @time ease-in-out;
+    -o-transition:all @time ease-in-out;
+    -ms-transition:all @time ease-in-out;    
+    transition:all @time ease-in-out;
+}

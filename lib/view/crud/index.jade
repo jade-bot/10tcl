@@ -1,0 +1,23 @@
+!!! 5
+html(lang='pt-br')
+  head
+    include ../templates/head
+    include includes/head
+  body
+    #root
+      include includes/topbar
+      
+      #main
+        .container
+          #title-row.row
+            .span11
+              h1= m.label
+            i#help-icon.icon-question-sign(style="float: right; margin-right:5px;")
+            include ../templates/shortcuts
+          #action-row.row
+            #list-panel.span4
+              include includes/grid
+            #edit-panel.span8
+              include includes/form
+            
+      #footer

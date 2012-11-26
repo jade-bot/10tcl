@@ -1,0 +1,21 @@
+!!! 5
+html(lang='pt-br')
+	head
+		include ../templates/head-mobile
+	body
+		div(data-role='page', data-theme='c')
+			div(data-role='header', data-theme='b')
+				h1 Login
+			div(data-role='content')
+				form(action='/login', method='POST')
+					.ui-hide-label(data-role='fieldcontain')
+						label(for='usr') Usuario
+						input(type='text', name='usr', id='usr', placeholder='Usuario')
+
+					.ui-hide-label(data-role='fieldcontain')
+						label(for='pwd') Password
+						input(type='password', name='pwd', id='pwd', placeholder='Password')
+
+					input(type='hidden', name='path', value=path)
+
+					button(type='submit', data-theme='b') Enviar

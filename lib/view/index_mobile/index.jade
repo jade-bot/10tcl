@@ -1,0 +1,15 @@
+!!! 5
+html(lang='pt-br')
+	head
+		include ../templates/head-mobile
+	body 
+		div(data-role='page', data-theme='c')
+
+			div(data-role='header', data-theme='b')
+				h1= config.brand
+				
+			div(data-role='content')
+				ul(data-role='listview', data-inset='true', data-filter='true')
+					each model in app.m
+						li
+							a(href="/crud/{1}".assign(model.name))= model.label

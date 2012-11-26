@@ -1,0 +1,18 @@
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+        i.icon-bar
+        i.icon-bar
+        i.icon-bar
+      a.brand(href="/")= config.brand
+      .nav-collapse
+        ul.nav.pull-right
+          li
+            form#login-form.navbar-form(action='/login', method='POST')
+              input#userName.enter-key.input-small(type='text', name='usr', placeholder='User', autofocus='autofocus', required='required')
+              span &nbsp
+              input#password.enter-key.input-small(type='password', name='pwd', placeholder='Password', required='required')
+              input#path(type='hidden', name='path', value=path)
+              span &nbsp
+              input#login-btn.btn(type='submit', value='login')

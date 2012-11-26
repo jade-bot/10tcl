@@ -1,0 +1,17 @@
+.controls
+	case field.type
+		when 'string'
+			input(type='text', name=field.name, data-bind)
+		when 'date'
+			input.datepicker.input-small(type='text', name=field.name, data-date-format='dd/mm/yyyy', data-bind)
+		when 'image'
+			input(type='file', name=field.name, data-bind)
+		when 'reference'
+			input(type='hidden', name=field.name+'._id', data-field=field.name, data-bind)
+			input.ref-desc(type='text', name=field.name+'.desc', data-ref=field.ref, data-field=field.name, data-bind)
+		when 'html'
+			textarea.html-editor(name=field.name, data-bind)
+		when 'email'
+			input(type='email', name=field.name, data-bind)
+		when 'tel'
+			input(type='tel', name=field.name, data-bind)

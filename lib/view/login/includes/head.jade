@@ -1,0 +1,39 @@
+head
+  meta(charset='utf-8')
+  title Please Login
+
+  link(rel='stylesheet', href='../../10tcl/css/Bootstrap/bootstrap.css')
+  link(rel='stylesheet', href='../../10tcl/css/site.css')
+  
+  link(rel='shortcut icon', href='/favicon.ico')
+
+  script(src='../../10tcl/js/jQuery/jquery-1.7.1.min.js')
+  script(src='../../10tcl/js/Bootstrap/bootstrap.js')
+  script
+    $(document).ready(function(){
+      
+      function login(){
+
+        var usr  = $('#userName').val()
+          , pwd  = $('#password').val()
+          , path = $('#path').val()
+        
+        if (usr && pwd)
+          $.ajax({ 
+            url: '/login', 
+            type: 'POST', 
+            contentType: 'application/json',
+            context: this,
+            data: JSON.stringify({ usr: usr, pwd: pwd, path: path })
+          })
+
+      }
+
+      $('.enter-key').keyup(function(key){
+        if (key.which === 13) login()
+      })
+
+      $('#login-btn').click(function(){
+        login()
+      })
+    })

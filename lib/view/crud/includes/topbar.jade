@@ -1,0 +1,14 @@
+.navbar.navbar-fixed-top.dark
+  .navbar-inner
+    .container
+      a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+        i.icon-bar
+        i.icon-bar
+        i.icon-bar
+      a.brand(href="/")= config.brand
+      .nav-collapse
+        ul.nav.pull-right
+          li.dropdown
+            a.dropdown-toggle(href="#", data-toggle="dropdown") Cadastro
+              i.caret
+            include ../../templates/menu-items

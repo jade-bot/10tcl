@@ -1,0 +1,17 @@
+!!! 5
+html(lang='pt-br')
+	head
+		include ../templates/head-mobile
+	body 
+		div(data-role='page', data-theme='c')
+
+			div(data-role='header', data-theme='b')
+				a(href='/', data-icon='back', data-theme='b') Menu
+				h1= m.label
+				a.ui-btn-right(href='/crud/'+m.name+'/mobForm', data-icon='add', data-theme='b') Novo
+
+			div(data-role='content')
+				ul(data-role='listview', data-inset='true', data-filter='true')
+					each record in m.records
+						li
+							a(href='/crud/'+m.name+'/mobForm/'+record._id)= record.desc

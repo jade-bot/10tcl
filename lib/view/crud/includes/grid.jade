@@ -1,0 +1,25 @@
+table.table
+	thead
+		tr
+			th
+				.btn-toolbar(style='margin: 0px;')
+					.btn-group
+						a#prev-page.btn.btn-small(href='#', onClick='$.view.prevPageClick()')
+							i.icon-chevron-left
+						a#next-page.btn.btn-small(href='#', onClick='$.view.nextPageClick()')
+							i.icon-chevron-right
+					input#search-field.right.input-medium.search-query(type='text', onChange='$.view.searchFieldChange()', placeholder='Procurar')
+			th
+				a.tooltiped.add-link(rel='tooltip', title='Adicionar '+m.label, onClick='$.view.addLinkClick()')
+					i.icon-plus
+	tbody#grid-place(data-tpl='grid-tpl')
+	
+script#grid-tpl(type='text/html')
+	{{#page}}
+	tr.list-row(data-idx='{{idx}}', data-id='{{_id}}')
+		td
+			a.edit-link.clicable(onClick='$.view.editLinkClick("{{_id}}")') {{desc}}
+		td
+			a.tooltiped.clicable(rel='tooltip', title='Remover {{desc}}', onClick='$.view.removeLinkClick("{{_id}}")')
+				i.icon-remove
+	{{/page}}

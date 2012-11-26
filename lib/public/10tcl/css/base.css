@@ -1,0 +1,38 @@
+/* classes */
+.animated {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.rounded {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.opaque {
+  zoom: 1;
+  filter: alpha(opacity=90);
+  opacity: 0.9;
+}
+.transparent {
+  zoom: 1;
+  filter: alpha(opacity=90);
+  opacity: 0;
+}
+.with-shadow {
+  -moz-box-shadow: 5px 5px 5px #737373;
+  /* Firefox */
+
+  -webkit-box-shadow: 5px 5px 5px #737373;
+  /* Safari, Chrome */
+
+  box-shadow: 5px 5px 5px #737373;
+  /* CSS3 */
+
+}
+.hidden {
+  display: none;
+}
+/* mixins */

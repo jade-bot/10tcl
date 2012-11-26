@@ -1,0 +1,10 @@
+form#crud-form.well.hidden
+	fieldset
+		each field in m.fields
+			.clearfix
+				label(for=''+field.name)= field.label
+			- var parentName = ''
+			include ../../templates/field	
+	a#cancel-btn.btn.btn-secondary(href='#', onClick='$.view.cancelBtnClick()') Cancelar
+	&nbsp;
+	a#save-btn.btn.btn-primary(href='#', onClick='$.view.saveBtnClick()') Salvar

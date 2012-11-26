@@ -1,0 +1,9 @@
+form#image-form.s3-file-form(method='POST', action=m.s3Credentials.bucketURL, enctype='multipart/form-data')
+  input(type='hidden', name='AWSAccessKeyId'          , value=m.s3Credentials.awsKey)
+  input(type='hidden', name='acl'                     , value=m.s3Credentials.accessType)
+  input(type='hidden', name='policy'                  , value=m.s3Credentials.policy)
+  input(type='hidden', name='signature'               , value=m.s3Credentials.signature)
+  input(type='hidden', name='Content-Type'            , value=m.s3Credentials.contentType)
+  input(type='hidden', name='key'                     )
+  
+  input(type='file', name='file', data-field=fieldName)

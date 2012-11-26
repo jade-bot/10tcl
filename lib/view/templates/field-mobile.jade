@@ -1,0 +1,20 @@
+div(data-role='fieldcontain')
+	- var value = (m.record) ? m.record[field.name] : ''
+	case field.type
+		when 'string'
+			input( type='text', name=field.name, id=field.name, value=value )
+		when 'date'
+			input( type='date', name=field.name, id=field.name, value=value )
+		when 'reference'
+			select( name=field.name, id=field.name)
+				option= 'Selecione '+app.m[field.ref].label
+				each option in app.m[field.ref].options()
+					if option._id === value
+						option(value=option._id, selected)= app.m[field.ref].desc(option)	
+					option(value=option._id)= option.desc
+		when 'html'
+			textarea(name=field.name)
+		when 'email'
+			input( type='email', name=field.name, id=field.name, value=value )
+		when 'tel'
+			input( type='tel', name=field.name, id=field.name, value=value )
