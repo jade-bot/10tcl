@@ -1,10 +1,17 @@
 form#crud-form.well.hidden
+	fieldset.form-horizontal
+		each field in m.fields
+			if field.type !== 'html'
+				.control-group
+					label.control-label(for=''+field.name)= field.label
+					- var parentName = ''
+					include ../../templates/field	
 	fieldset
 		each field in m.fields
-			.clearfix
+			if field.type === 'html'
 				label(for=''+field.name)= field.label
-			- var parentName = ''
-			include ../../templates/field	
+				- var parentName = ''
+				include ../../templates/field	
 	a#cancel-btn.btn.btn-secondary(href='#', onClick='$.view.cancelBtnClick()') Cancelar
 	&nbsp;
 	a#save-btn.btn.btn-primary(href='#', onClick='$.view.saveBtnClick()') Salvar

@@ -6,11 +6,11 @@ html(lang='pt-br')
 		- var title  = (m.record) ? 'Editar '+m.label : 'Adicionar '+m.label
 
 		div(data-role='page', data-theme='c')
-			form(action='/crud/'+m.name+'/mobForm', method='POST')
+			form(action='/'+m.name+'/mobForm', method='POST')
 				div(data-role='header', data-theme='b')
 					
 					if m.record
-						a(href='/crud/'+m.name+'/remove/'+m.record._id, data-icon='delete', data-theme='a') Deletar
+						a(href='/'+m.name+'/remove/'+m.record._id, data-icon='delete', data-theme='a') Deletar
 					h1= title
 					button.ui-btn-right(type='submit', data-ajax='false', data-icon='check', data-theme='b') Salvar
 

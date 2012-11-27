@@ -6,10 +6,10 @@ html(lang='pt-br')
 		div(data-role='page', data-theme='c')
 
 			div(data-role='header', data-theme='b')
-				h1= config.brand
+				h1= brand
 				
 			div(data-role='content')
 				ul(data-role='listview', data-inset='true', data-filter='true')
-					each model in app.m
+					each item in menuItems
 						li
-							a(href="/crud/{1}".assign(model.name))= model.label
+							a(href='/{1}'.assign(item.name))= item.label
