@@ -7,6 +7,7 @@
     "email": "fernandobbecker@gmail.com"
   },
   "dependencies": {
+    "express": "3.0",
     "mongoskin": "0.3.6",
     "mustache": "*",
     "jade": "*",
@@ -21,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/superpeixeboi/10tcl"
+    "url": "git://github.com/superpeixeboi/10tcl.git"
   },
   "main": "index",
   "engines": {

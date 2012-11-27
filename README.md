@@ -14,7 +14,7 @@ It has some limitations and misconceptions that need fixing.
 
 ## Config
 
-A config file must contain:
+A config object must contain:
     
     config = {
         // used as title for your pages
