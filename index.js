@@ -19,7 +19,7 @@ exports.attack = function(srv, config){
 	// ======================================================
 	// controller
 	var base        = require('./lib/ctrl/ctrlBase')(srv, config)
-	  , pathToCtrls = (config.pathToCtrls) ? config.pathToCtrls : config.root+'/controllers'
+	  , pathToCtrls = (config.pathToCtrls) ? config.root+config.pathToCtrls : config.root+'/controllers'
 	  , ctrls       = fs.readdirSync(pathToCtrls)
 	
 	menuItems   = []
@@ -42,7 +42,7 @@ exports.attack = function(srv, config){
 
     // ======================================================
 	// model
-	var pathToModels = (config.pathToCtrls) ? config.pathToCtrls : config.root+'/models'
+	var pathToModels = (config.pathToModels) ? config.root+config.pathToModels : config.root+'/models'
 	  , models       = fs.readdirSync(pathToModels)
 	  , modelExt     = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
 
