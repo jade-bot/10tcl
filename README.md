@@ -5,8 +5,8 @@
 ## How is it?
 
 It works! ...mostly.
-Right now I could not recommend it. Give it a few month before serious usage.
-It has some limitations and misconceptions that need fixing.
+Right now I could not recommend it. Give it a few months before serious usage.
+It has some limitations and misconceptions, and it is not getting better soon.
 
 ## Install
 
@@ -36,23 +36,14 @@ A config object must contain:
     
 ## Use
 
-step 1: create your express app
-    
-    var express = require('express')
-      , app = express()
+    var app = require('10tcl').attack(config)
+    app.listen(yourPortHere)
 
-step 2: attack it!
-    
-    config = {...}
-    require('10tcl').attack(app, config)
-
-step 3: run away from it.
-
-10tcl just went over your models and controllers
+10tcl attack results in an express app configured with routes based on your models and controllers.
 
 ### Database
 
-Now app.db contains an connection to your database.
+app.db contains a connection to your database.
 It was done by using Mongoskin and the credentials on the config object.
 
 ### Controllers
@@ -113,6 +104,6 @@ Each will result in a different html element and layout.
 
 ### CRUD
 
-The views are made, with bootstrap, jquery, and some self-made binding (Angular was just making me angry).
+The views are made with bootstrap, jquery, and some self-made binding (Angular was just making me angry).
 In mobile they are much simpler, made with jquerymobile and jquery.
 The decision between mobile and desktop is made by reading request headers.
