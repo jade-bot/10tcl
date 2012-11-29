@@ -1,20 +1,43 @@
-exports.attack = function(srv, config){
+exports.attack = function(config){
 
 	// ======================================================
 	// prepare attack
+	var express = require('express')
+	  , srv = express()
+	
 	fs       = require('fs')
 	mustache = require('mustache')
 	log      = console.log
 	require('sugar')
 	Object.extend()
-	var express = require('express')
+
+	// ======================================================
+	// configure server
+
+	config.viewRoot   = config.root+'/node_modules/10tcl/lib/view'
+	config.publicRoot = config.root+'/node_modules/10tcl/lib/public'
 	
+	srv.configure(function(){
+	    srv.set('view engine', 'jade')
+		srv.set('views',  config.root + '/views')
+		srv.use(express.favicon())
+		srv.use(express.logger())
+		srv.use(express.bodyParser())
+		srv.use(express.methodOverride())
+		srv.use(require('less-middleware')({ src: config.root + '/public' }))
+		srv.use(express.static( config.publicRoot ))
+		
+		srv.use(express.cookieParser())
+		srv.use(express.session(config.session))
+		srv.use(srv.router)
+	})
+
 	// ======================================================
 	// db
 	var mongo  = require('mongoskin')
 	  , conStr = 'mongodb://{usr}:{pwd}@{srv}/{db}?{par}'.assign(config.db)
-    
-    srv.db = mongo.db(conStr)
+	
+	srv.db = mongo.db(conStr)
 
 	// ======================================================
 	// controller
@@ -24,23 +47,19 @@ exports.attack = function(srv, config){
 	
 	menuItems   = []
 
-	config.viewRoot   = config.root+'/node_modules/10tcl/lib/view'
-	config.publicRoot = config.root+'/node_modules/10tcl/lib/public'
-	srv.use(express.static( config.publicRoot ))
-
 	srv.get ( '/'      , base.auth, base.idx )
-    srv.post( '/login' , base.login          )
-    
-    ctrls.forEach(function(file){
-        if (file.endsWith('.js')){
-            var controller_path = '{1}/{2}'.assign(pathToCtrls, file)
-            menuItem = require(controller_path)(srv, base, config)
-            menuItems.push(menuItem)
-        }
-    })
-    require('./lib/ctrl/ctrlAutoComplete')(srv, base, config)
+	srv.post( '/login' , base.login          )
+	
+	ctrls.forEach(function(file){
+		if (file.endsWith('.js')){
+			var controller_path = '{1}/{2}'.assign(pathToCtrls, file)
+			menuItem = require(controller_path)(srv, base, config)
+			menuItems.push(menuItem)
+		}
+	})
+	require('./lib/ctrl/ctrlAutoComplete')(srv, base, config)
 
-    // ======================================================
+	// ======================================================
 	// model
 	var pathToModels = (config.pathToModels) ? config.root+config.pathToModels : config.root+'/models'
 	  , models       = fs.readdirSync(pathToModels)
@@ -66,4 +85,6 @@ exports.attack = function(srv, config){
 			} 
 		}
 	})
+
+	return srv
 }
