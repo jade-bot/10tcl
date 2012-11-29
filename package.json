@@ -1,7 +1,7 @@
 {
   "name": "10tcl",
   "description": "CRUD over express and mongodb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Fernando Becker",
     "email": "fernandobbecker@gmail.com"
@@ -11,7 +11,9 @@
     "mongoskin": "0.3.x",
     "mustache": "*",
     "jade": "*",
-    "sugar": "1.3.x"
+    "sugar": "1.3.x",
+    "less": "*",
+    "less-middleware": "*"
   },
   "keywords": [
     "10tcl",
@@ -27,6 +29,5 @@
   "main": "index",
   "engines": {
     "node": "*"
-  },
-  "_id": "10tcl@0.0.1"
+  }
 }
