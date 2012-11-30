@@ -1,9 +1,10 @@
-exports.attack = function(config){
+exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// prepare attack
 	var express = require('express')
 	  , srv = express()
+	  , config = require(root + pathToConfig)
 	
 	fs       = require('fs')
 	mustache = require('mustache')
@@ -14,17 +15,18 @@ exports.attack = function(config){
 	// ======================================================
 	// configure server
 
-	config.viewRoot   = config.root+'/node_modules/10tcl/lib/view'
-	config.publicRoot = config.root+'/node_modules/10tcl/lib/public'
+	var pathToViews   = (config.pathToViews) ? root+config.pathToViews : root+'/views'
+	config.viewRoot   = root+'/node_modules/10tcl/lib/view'
+	config.publicRoot = root+'/node_modules/10tcl/lib/public'
 	
 	srv.configure(function(){
 	    srv.set('view engine', 'jade')
-		srv.set('views',  config.root + '/views')
+		srv.set('views',  pathToViews)
 		srv.use(express.favicon())
 		srv.use(express.logger())
 		srv.use(express.bodyParser())
 		srv.use(express.methodOverride())
-		srv.use(require('less-middleware')({ src: config.root + '/public' }))
+		srv.use(require('less-middleware')({ src: root + '/public' }))
 		srv.use(express.static( config.publicRoot ))
 		
 		srv.use(express.cookieParser())
@@ -42,7 +44,7 @@ exports.attack = function(config){
 	// ======================================================
 	// controller
 	var base        = require('./lib/ctrl/ctrlBase')(srv, config)
-	  , pathToCtrls = (config.pathToCtrls) ? config.root+config.pathToCtrls : config.root+'/controllers'
+	  , pathToCtrls = (config.pathToCtrls) ? root+config.pathToCtrls : root+'/controllers'
 	  , ctrls       = fs.readdirSync(pathToCtrls)
 	
 	menuItems   = []
@@ -61,7 +63,7 @@ exports.attack = function(config){
 
 	// ======================================================
 	// model
-	var pathToModels = (config.pathToModels) ? config.root+config.pathToModels : config.root+'/models'
+	var pathToModels = (config.pathToModels) ? root+config.pathToModels : root+'/models'
 	  , models       = fs.readdirSync(pathToModels)
 	  , modelExt     = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
 

@@ -14,9 +14,9 @@ It has some limitations and misconceptions, and it is not getting better soon.
 
 ## Config
 
-A config object must contain:
+A config file must contain:
     
-    config = {
+    module.exports = {
         // used as title for your pages
         brand: 'Day of the Tentacle IS HERE!',
         // used to assemble the connection string to your mongodb instance
@@ -29,14 +29,16 @@ A config object must contain:
         },
         // __dirname of your root
         root: root, 
-        // if not informed it defaults to 'root/models' and 'root/controllers'
+        // if not informed it defaults to 'root/models', 'root/controllers' and 'root/views'
         pathToCtrls: '/app/controllers',
-        pathToModels: '/app/models'  
+        pathToModels: '/app/models',
+        pathToViews: '/app/views'
     }
     
 ## Use
 
-    var app = require('10tcl').attack(config)
+    // __dirname will be the root to locate folders indicated in pathTo... properties
+    var app = require('10tcl').attack(__dirname, '/config/yourConfigFile')
     app.listen(yourPortHere)
 
 10tcl attack results in an express app configured with routes based on your models and controllers.
