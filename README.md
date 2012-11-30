@@ -68,7 +68,7 @@ An example of controller file would be:
 ### Models
 
 Every .js file under your models folder was required as well, no arguments.
-Each binded to app.db by the model.name property, so now app.db.[modelNameHere] points to a collection capable of restfull crud.
+Each binded to app.db by the model.name property, so now app.db[modelNameHere] points to a collection capable of restfull crud.
 
 An example of model would be:
 
