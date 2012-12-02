@@ -3,21 +3,24 @@ exports.attack = function(root, pathToConfig){
 	// ======================================================
 	// prepare attack
 	var express = require('express')
-	  , srv = express()
-	  , config = require(root + pathToConfig)
+	  , srv     = express()
+	  , config  = require(root + pathToConfig)
 	
-	fs       = require('fs')
-	mustache = require('mustache')
-	log      = console.log
+	fs          = require('fs')
+	mustache    = require('mustache')
+	log         = console.log
 	require('sugar')
 	Object.extend()
 
 	// ======================================================
 	// configure server
 
+	log( '__dirname: ' + __dirname )
+	log( 'root: ' + root )
+	
 	var pathToViews   = (config.pathToViews) ? root+config.pathToViews : root+'/views'
-	config.viewRoot   = root+'/node_modules/10tcl/lib/view'
-	config.publicRoot = root+'/node_modules/10tcl/lib/public'
+	config.viewRoot   = __dirname+'/lib/view'
+	config.publicRoot = __dirname+'/lib/public'
 	
 	srv.configure(function(){
 	    srv.set('view engine', 'jade')
@@ -28,7 +31,7 @@ exports.attack = function(root, pathToConfig){
 		srv.use(express.methodOverride())
 		srv.use(require('less-middleware')({ src: root + '/public' }))
 		srv.use(express.static( config.publicRoot ))
-		
+
 		srv.use(express.cookieParser())
 		srv.use(express.session(config.session))
 		srv.use(srv.router)
