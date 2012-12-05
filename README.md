@@ -122,6 +122,6 @@ Want to keep texts in a cached db for online editing and translation.
 
 ### CRUD
 
-The views are made with bootstrap, jquery, and some self-made binding (Angular was just making me angry).
+The views are made with bootstrap, jquery, and some home-made binding (Angular was just making me angry).
 In mobile they are much simpler, made with jquerymobile and jquery.
 The decision between mobile and desktop is made by reading request headers.
