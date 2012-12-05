@@ -2,12 +2,13 @@ exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// prepare attack
-	var express = require('express')
-	  , srv     = express()
-	  , config  = require(root + pathToConfig)
+	var express   = require('express')
+	  , srv       = express()
+	  , config    = require(root + pathToConfig)
 	
 	fs          = require('fs')
 	mustache    = require('mustache')
+
 	log         = console.log
 	require('sugar')
 	Object.extend()
@@ -66,9 +67,13 @@ exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// model
-	var pathToModels = (config.pathToModels) ? root+config.pathToModels : root+'/models'
-	  , models       = fs.readdirSync(pathToModels)
-	  , modelExt     = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
+
+
+	var pathToModels    = (config.pathToModels) ? root+config.pathToModels : root+'/models'
+	var pathToValidator = (config.pathToValidator) ? root+config.pathToValidator : './lib/model/modelValidator'
+	  , models          = fs.readdirSync(pathToModels)
+	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
+	  , modelValidation = require(pathToValidator)()
 
 	srv.m = {}
 	models.forEach(function(file){
@@ -81,6 +86,7 @@ exports.attack = function(root, pathToConfig){
 			srv.m[model.name] = []
 			srv.m[model.name].merge(model)
 			srv.m[model.name].merge(modelExt)
+			srv.m[model.name].merge(modelValidation)
 			srv.m[model.name].srv = srv
 			srv.m[model.name].start()
 			

@@ -32,7 +32,8 @@ A config file must contain:
         // if not informed it defaults to 'root/models', 'root/controllers' and 'root/views'
         pathToCtrls: '/app/controllers',
         pathToModels: '/app/models',
-        pathToViews: '/app/views'
+        pathToViews: '/app/views',
+        pathToValidator: 'app/models/validator'
     }
     
 ## Use
@@ -103,6 +104,21 @@ An example of model would be:
 
 10tcl understands: string, number, email, tel, date, html, text, reference (type: 'reference', ref: 'criminal')
 Each will result in a different html element and layout.
+A field type different from the above will result in a regular input field.
+
+### Validation
+
+"validator" package provides type associated checks, that are automatically executed on POST/PUT transactions.
+Other than that, a field can contain a property validates: ['mandatory', ...]
+Each check in checks array will trigger the correspondent function in the 10tcl modelValidator return object.
+Defining pathToValidator, you can implement your own validator that will be required instead of the 10tcl one.
+
+### i18n
+
+Nop... sorry.
+And I'm outputting static texts in PT-BR.
+Not happy with any package I've tried.
+Want to keep texts in a cached db for online editing and translation.
 
 ### CRUD
 

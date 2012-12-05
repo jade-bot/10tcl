@@ -1,7 +1,5 @@
 .controls
 	case field.type
-		when 'string'
-			input(type='text', name=field.name, data-bind)
 		when 'date'
 			input.datepicker.input-small(type='text', name=field.name, data-date-format='dd/mm/yyyy', data-bind)
 		when 'image'
@@ -15,3 +13,5 @@
 			input(type='email', name=field.name, data-bind)
 		when 'tel'
 			input(type='tel', name=field.name, data-bind)
+		default
+			input(type='text', name=field.name, data-bind)
