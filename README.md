@@ -84,8 +84,8 @@ An example of model would be:
         format: 'Victim {{name}} {{lastName}}',
         // fields to format and forms (see next topic)
         fields: [
-            { name: 'name', label: 'Nome', type: 'string' },
-            { name: 'lastName', label: 'Sobrenome', type: 'string' },
+            { name: 'name', label: 'Nome', type: 'string', checks: ['hasValue'] },
+            { name: 'lastName', label: 'Sobrenome', type: 'string' }
         ],
         // create route '<your-site>.com/victims' pointing to 10tcl CRUD
         routeTo10tcl: true,
@@ -108,9 +108,9 @@ A field type different from the above will result in a regular input field.
 
 ### Validation
 
-"validator" package provides type associated checks, that are automatically executed on POST/PUT transactions.
-Other than that, a field can contain a property validates: ['mandatory', ...]
-Each check in checks array will trigger the correspondent function in the 10tcl modelValidator return object.
+10tcl modelValidator provides type associated checks, that are automatically executed on POST/PUT transactions.
+Other than that, a field can contain a property checks: ['hasValue', ...]
+Each string in checks array will trigger the correspondent function of the modelValidator.
 Defining pathToValidator, you can implement your own validator that will be required instead of the 10tcl one.
 
 ### i18n

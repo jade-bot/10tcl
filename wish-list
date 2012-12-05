@@ -1,0 +1,8 @@
+i18n 
+- store text json in a json store, and not in the filesystem.
+- allow for given profiles to see static texts as links that will popup a translation dialog.
+
+user mgmt
+- create and manage user and profile collections.
+- allow for oAuth ??
+

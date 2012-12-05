@@ -14,11 +14,7 @@ exports.attack = function(root, pathToConfig){
 	Object.extend()
 
 	// ======================================================
-	// configure server
-
-	log( '__dirname: ' + __dirname )
-	log( 'root: ' + root )
-	
+	// configure server	
 	var pathToViews   = (config.pathToViews) ? root+config.pathToViews : root+'/views'
 	config.viewRoot   = __dirname+'/lib/view'
 	config.publicRoot = __dirname+'/lib/public'
@@ -67,10 +63,8 @@ exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// model
-
-
 	var pathToModels    = (config.pathToModels) ? root+config.pathToModels : root+'/models'
-	var pathToValidator = (config.pathToValidator) ? root+config.pathToValidator : './lib/model/modelValidator'
+	  , pathToValidator = (config.pathToValidator) ? root+config.pathToValidator : './lib/model/modelValidator'
 	  , models          = fs.readdirSync(pathToModels)
 	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
 	  , modelValidation = require(pathToValidator)()
