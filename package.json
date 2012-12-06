@@ -1,7 +1,7 @@
 {
   "name": "10tcl",
   "description": "CRUD over express and mongodb",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": {
     "name": "Fernando Becker",
     "email": "fernandobbecker@gmail.com"
