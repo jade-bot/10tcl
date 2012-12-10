@@ -27,6 +27,8 @@ A config file must contain:
             db:  'day_of_the_tentacle',
             par: 'auto_reconnect'
         },
+        // static admin user to allow first login
+        admin: { usr: 'admin', pwd: 'ElGranSecreto', name: 'Admin', role: 'admin'}
         // __dirname of your root
         root: root, 
         // if not informed it defaults to 'root/models', 'root/controllers' and 'root/views'
@@ -91,6 +93,8 @@ An example of model would be:
         routeTo10tcl: true,
         // read the entire collection into the app, changes it before persisting
         keepInCache: true,
+        // restrict access to users with one of these roles
+        onlyForRoles: ['admin'],
         // used if you run 'node myApp.js mock'
         mock: [
             {name: 'Mussum', _id: '508e0077d42bd6182f000001'},

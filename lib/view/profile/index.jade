@@ -1,0 +1,57 @@
+!!! 5
+html(lang='pt-br')
+  head
+    include ../templates/head
+    link(rel="stylesheet", href="../10tcl/css/Bootstrap/"+theme)
+  body
+    #root
+      include ../templates/topbar
+      
+      #main
+        .container
+          #title-row.row
+            .span11
+              h1= 'Perfil de {1} {2}'.assign(user.name, user.lastName) 
+          #action-row.row
+            #edit-panel.span8
+              form(action='/profile', method='POST')#crud-form.well
+                fieldset.form-horizontal
+                  input(type='hidden', name='_id', value=user._id)
+                  if user.role
+                    .control-group(id='ctrl-group-role')
+                      label.control-label(for='role') Perfil:
+                      .controls
+                        input(type='text', name='role', disabled, value=user.role)
+                  .control-group(id='ctrl-group-usr')
+                    label.control-label(for='usr') Usuario:
+                    .controls
+                      input(type='text', name='usr', value=user.usr)
+
+                  .control-group(id='ctrl-group-pwd')
+                    label.control-label Senha:
+                    .controls
+                      input(type='password', name='pwd', value=user.pwd)
+                  .control-group(id='ctrl-group-name')
+                    label.control-label Nome:
+                    .controls
+                      input(type='text', name='name', value=user.name)
+                  .control-group(id='ctrl-group-lastName')
+                    label.control-label Sobrenome:
+                    .controls
+                      input(type='text', name='lastName', value=user.lastName)
+                  .control-group(id='ctrl-group-email')
+                    label.control-label e-mail:
+                    .controls
+                      input(type='text', name='email', value=user.email)
+                  .control-group(id='ctrl-group-theme')
+                    label.control-label Tema:
+                    .controls
+                      select(name='theme')
+                        option
+                        each theme in srv.m.themes
+                          if theme._id === user.theme._id
+                            option(value=theme._id, selected)= theme.desc
+                          else
+                            option(value=theme._id)= theme.desc
+                .form-actions
+                  input.btn.btn-primary(type='submit', value='Salvar')

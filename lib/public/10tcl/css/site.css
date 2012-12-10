@@ -14,7 +14,8 @@ body {
   padding-left: 5px;
 }
 #search-field {
-  width: 120px;
+  width: 140px;
+  margin-left: 10px;
 }
 body,
 p {

@@ -5,13 +5,21 @@
 		when 'image'
 			input(type='file', name=field.name, data-bind)
 		when 'reference'
-			input(type='hidden', name=field.name+'._id', data-field=field.name, data-bind)
-			input.ref-desc(type='text', name=field.name+'.desc', data-ref=field.ref, data-field=field.name, data-bind)
+			if srv.m[field.to].length > 30
+				input(type='hidden', name=field.name+'._id', data-field=field.name, data-bind)
+				input.ref-desc(type='text', name=field.name+'.desc', data-ref=field.to, data-field=field.name, data-bind)
+			else
+				select(name=field.name+'._id', data-field=field.name, data-bind)
+					option
+					each option in srv.m[field.to].options()
+						option(value=option._id)= option.desc
 		when 'html'
 			textarea.html-editor(name=field.name, data-bind)
 		when 'email'
 			input(type='email', name=field.name, data-bind)
 		when 'tel'
 			input(type='tel', name=field.name, data-bind)
+		when 'password'
+			input(type='password', name=field.name, data-bind)
 		default
 			input(type='text', name=field.name, data-bind)

@@ -2,16 +2,17 @@ exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// prepare attack
-	var express   = require('express')
-	  , srv       = express()
-	  , config    = require(root + pathToConfig)
-	
-	fs          = require('fs')
-	mustache    = require('mustache')
-
-	log         = console.log
 	require('sugar')
 	Object.extend()
+
+	var express      = require('express')
+	  , srv          = express()
+	  , config       = require(root + pathToConfig) 
+	  , staticModels = require('./lib/model/staticModels')()
+	
+	log      = console.log
+	fs       = require('fs')
+	mustache = require('mustache')
 
 	// ======================================================
 	// configure server	
@@ -68,28 +69,58 @@ exports.attack = function(root, pathToConfig){
 	  , models          = fs.readdirSync(pathToModels)
 	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
 	  , modelValidation = require(pathToValidator)()
+	
+	function requireModel(modelPath){
+		var model = require(modelPath)
 
-	srv.m = {}
+		srv.db.bind(model.name)
+		srv.m[model.name] = []
+		srv.m[model.name].merge(model)
+		srv.m[model.name].merge(modelExt)
+		srv.m[model.name].merge(modelValidation)
+		srv.m[model.name].srv = srv
+		srv.m[model.name].start()
+		
+		if (model.routeTo10tcl){
+			menuItems.push({name: model.name, label: model.label})
+			require('./lib/ctrl/ctrlCrud')(srv, base, model, config)	
+		}
+	}
+
+	srv.m = staticModels
 	models.forEach(function(file){
 		if (file.endsWith('.js')){
-
-			var model_path = '{1}/{2}'.assign(pathToModels, file)
-			var model = require(model_path)
-
-			srv.db.bind(model.name)
-			srv.m[model.name] = []
-			srv.m[model.name].merge(model)
-			srv.m[model.name].merge(modelExt)
-			srv.m[model.name].merge(modelValidation)
-			srv.m[model.name].srv = srv
-			srv.m[model.name].start()
-			
-			if (model.routeTo10tcl){
-				menuItems.push({name: model.name, label: model.label})
-				require('./lib/ctrl/ctrlCrud')(srv, base, model, config)	
-			} 
+			var modelPath = '{1}/{2}'.assign(pathToModels, file)
+		 	requireModel(modelPath)
 		}
 	})
 
+	// ======================================================
+	// users
+	var pathToUser = (config.pathToUser) ? root+config.pathToUser+'/user' : './lib/model/user'
+ 	requireModel(pathToUser)
+ 	srv.m.user.add(config.admin)
+
+ 	require('./lib/ctrl/ctrlProfile')(srv, base, config)
+
 	return srv
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

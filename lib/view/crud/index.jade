@@ -5,7 +5,7 @@ html(lang='pt-br')
     include includes/head
   body
     #root
-      include includes/topbar
+      include ../templates/topbar
       
       #main
         .container
@@ -16,8 +16,9 @@ html(lang='pt-br')
             include ../templates/shortcuts
           #action-row.row
             #list-panel.span4
-              include includes/grid
+              include ../templates/grid
             #edit-panel.span8
-              include includes/form
+              #form-wrapper.hidden
+                include ../templates/form
             
       #footer
