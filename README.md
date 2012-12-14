@@ -94,7 +94,7 @@ An example of model would be:
         // read the entire collection into the app, changes it before persisting
         keepInCache: true,
         // restrict access to users with one of these roles
-        onlyForRoles: ['admin'],
+        onlyFor: ['admin'],
         // used if you run 'node myApp.js mock'
         mock: [
             {name: 'Mussum', _id: '508e0077d42bd6182f000001'},
@@ -106,7 +106,7 @@ An example of model would be:
 
 ### Field types
 
-10tcl understands: string, number, email, tel, date, html, text, reference (type: 'reference', ref: 'criminal')
+10tcl understands: string, number, email, tel, date, html, text, reference (type: 'reference', to: 'criminal')
 Each will result in a different html element and layout.
 A field type different from the above will result in a regular input field.
 
@@ -116,6 +116,11 @@ A field type different from the above will result in a regular input field.
 Other than that, a field can contain a property checks: ['hasValue', ...]
 Each string in checks array will trigger the correspondent function of the modelValidator.
 Defining pathToValidator, you can implement your own validator that will be required instead of the 10tcl one.
+
+### Users
+
+User and Profile are pre-loaded models that provide access control.
+The config property "admin" provides a proto user for the first login.
 
 ### i18n
 

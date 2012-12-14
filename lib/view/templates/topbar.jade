@@ -14,8 +14,10 @@
 								i.caret
 							ul.dropdown-menu
 								each item in menuItems
-									li
-										a(href="/{1}".assign(item.name))= item.label
+									- if (!item.onlyFor || (item.onlyFor && item.onlyFor.find(user.role))){
+										li
+											a(href="/{1}".assign(item.name))= item.label
+									- }
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown')
 								i.icon-user.icon-white

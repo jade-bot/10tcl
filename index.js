@@ -52,6 +52,7 @@ exports.attack = function(root, pathToConfig){
 
 	srv.get ( '/'      , base.auth, base.idx )
 	srv.post( '/login' , base.login          )
+	srv.get ( '/logout', base.logout         )
 	
 	ctrls.forEach(function(file){
 		if (file.endsWith('.js')){
@@ -67,23 +68,24 @@ exports.attack = function(root, pathToConfig){
 	var pathToModels    = (config.pathToModels) ? root+config.pathToModels : root+'/models'
 	  , pathToValidator = (config.pathToValidator) ? root+config.pathToValidator : './lib/model/modelValidator'
 	  , models          = fs.readdirSync(pathToModels)
-	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock') : require('./lib/model/modelExt')
-	  , modelValidation = require(pathToValidator)()
+	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock')(srv) : require('./lib/model/modelExt')(srv)
+	  , modelValidation = require(pathToValidator)(srv)
+	  , ctrlCrud        = require('./lib/ctrl/ctrlCrud')
 	
 	function requireModel(modelPath){
 		var model = require(modelPath)
 
-		srv.db.bind(model.name)
 		srv.m[model.name] = []
 		srv.m[model.name].merge(model)
 		srv.m[model.name].merge(modelExt)
 		srv.m[model.name].merge(modelValidation)
-		srv.m[model.name].srv = srv
+		
+		srv.db.bind(srv.m[model.name].collectionName())
 		srv.m[model.name].start()
 		
 		if (model.routeTo10tcl){
-			menuItems.push({name: model.name, label: model.label})
-			require('./lib/ctrl/ctrlCrud')(srv, base, model, config)	
+			menuItems.push({name: model.name, label: model.label, onlyFor: model.onlyFor})
+			ctrlCrud(srv, base, model, config)	
 		}
 	}
 
@@ -97,9 +99,12 @@ exports.attack = function(root, pathToConfig){
 
 	// ======================================================
 	// users
-	var pathToUser = (config.pathToUser) ? root+config.pathToUser+'/user' : './lib/model/user'
+	var pathToUser    = (config.pathToUser) ? root+config.pathToUser+'/user'    : './lib/model/user'
+	var pathToProfile = (config.pathToUser) ? root+config.pathToUser+'/profile' : './lib/model/profile'
  	requireModel(pathToUser)
+ 	requireModel(pathToProfile)
  	srv.m.user.add(config.admin)
+ 	srv.m.profile.add(config.admin)
 
  	require('./lib/ctrl/ctrlProfile')(srv, base, config)
 

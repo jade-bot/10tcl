@@ -21,5 +21,7 @@
 			input(type='tel', name=field.name, data-bind)
 		when 'password'
 			input(type='password', name=field.name, data-bind)
+		when 'read only'
+			input(type='text', disabled, data-bind)
 		default
 			input(type='text', name=field.name, data-bind)

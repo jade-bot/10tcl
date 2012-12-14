@@ -21,11 +21,12 @@ html(lang='pt-br')
                     .control-group(id='ctrl-group-role')
                       label.control-label(for='role') Perfil:
                       .controls
-                        input(type='text', name='role', disabled, value=user.role)
+                        input(type='text', disabled, value=user.role)
                   .control-group(id='ctrl-group-usr')
                     label.control-label(for='usr') Usuario:
                     .controls
-                      input(type='text', name='usr', value=user.usr)
+                      input(type='text', disabled, value=user.usr)
+                      input(type='hidden', name='usr', value=user.usr)
 
                   .control-group(id='ctrl-group-pwd')
                     label.control-label Senha:
@@ -49,9 +50,10 @@ html(lang='pt-br')
                       select(name='theme')
                         option
                         each theme in srv.m.themes
-                          if theme._id === user.theme._id
+                          - if (user.theme && theme._id === user.theme._id){
                             option(value=theme._id, selected)= theme.desc
-                          else
+                          -}else{
                             option(value=theme._id)= theme.desc
+                          -}
                 .form-actions
                   input.btn.btn-primary(type='submit', value='Salvar')
