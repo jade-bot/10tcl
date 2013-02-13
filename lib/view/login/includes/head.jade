@@ -20,7 +20,7 @@ head
         
         if (usr && pwd)
           $.ajax({ 
-            url: '/login', 
+            url: '#{domain}login', 
             type: 'POST', 
             contentType: 'application/json',
             context: this,

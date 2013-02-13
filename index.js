@@ -28,6 +28,7 @@ exports.attack = function(root, pathToConfig){
 		srv.use(express.bodyParser())
 		srv.use(express.methodOverride())
 		srv.use(require('less-middleware')({ src: root + '/public' }))
+		srv.use(express.static( root + '/public' ))
 		srv.use(express.static( config.publicRoot ))
 
 		srv.use(express.cookieParser())
@@ -47,18 +48,20 @@ exports.attack = function(root, pathToConfig){
 	var base        = require('./lib/ctrl/ctrlBase')(srv, config)
 	  , pathToCtrls = (config.pathToCtrls) ? root+config.pathToCtrls : root+'/controllers'
 	  , ctrls       = fs.readdirSync(pathToCtrls)
+	  , domain      = (config.domain) ? '/{1}'.assign(config.domain) : ''
+	  , indexDomain = (config.domain) ? '/{1}'.assign(config.domain) : '/'
 	
 	menuItems   = []
-
-	srv.get ( '/'      , base.auth, base.idx )
-	srv.post( '/login' , base.login          )
-	srv.get ( '/logout', base.logout         )
+	
+	srv.get ( indexDomain     , base.auth, base.idx )
+	srv.post( domain+'/login' , base.login          )
+	srv.get ( domain+'/logout', base.logout         )
 	
 	ctrls.forEach(function(file){
 		if (file.endsWith('.js')){
 			var controller_path = '{1}/{2}'.assign(pathToCtrls, file)
 			menuItem = require(controller_path)(srv, base, config)
-			menuItems.push(menuItem)
+			if (menuItem) menuItems.push(menuItem)
 		}
 	})
 	require('./lib/ctrl/ctrlAutoComplete')(srv, base, config)
@@ -73,7 +76,8 @@ exports.attack = function(root, pathToConfig){
 	  , ctrlCrud        = require('./lib/ctrl/ctrlCrud')
 	
 	function requireModel(modelPath){
-		var model = require(modelPath)
+		var model  = require(modelPath)
+		  , domain = (config.domain) ? '/{1}/'.assign(config.domain) : '/'
 
 		srv.m[model.name] = []
 		srv.m[model.name].merge(model)
@@ -84,7 +88,7 @@ exports.attack = function(root, pathToConfig){
 		srv.m[model.name].start()
 		
 		if (model.routeTo10tcl){
-			menuItems.push({name: model.name, label: model.label, onlyFor: model.onlyFor})
+			menuItems.push({url: domain + model.name, label: model.label, onlyFor: model.onlyFor})
 			ctrlCrud(srv, base, model, config)	
 		}
 	}

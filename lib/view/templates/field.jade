@@ -13,8 +13,15 @@
 					option
 					each option in srv.m[field.to].options()
 						option(value=option._id)= option.desc
+		when 'category'
+			select(name=field.name+'._id', data-field=field.name, data-bind)
+				option
+				each option in field.options
+					option(value=option)= option
 		when 'html'
 			textarea.html-editor(name=field.name, data-bind)
+		when 'json'
+			textarea.json-editor(id=field.name, name=field.name, data-bind)
 		when 'email'
 			input(type='email', name=field.name, data-bind)
 		when 'tel'

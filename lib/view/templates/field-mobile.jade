@@ -12,6 +12,13 @@ div(data-role='fieldcontain')
 					if option._id === value
 						option(value=option._id, selected)= app.m[field.ref].desc(option)	
 					option(value=option._id)= option.desc
+		when 'category'
+			select( name=field.name, id=field.name)
+				option= 'Selecione '+app.m[field.ref].label
+				each option in field.options
+					if option === value
+						option(value=option, selected)= option	
+					option(value=option)= option
 		when 'html'
 			textarea(name=field.name)
 		when 'email'

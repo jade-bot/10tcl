@@ -16,7 +16,7 @@
 								each item in menuItems
 									- if (!item.onlyFor || (item.onlyFor && item.onlyFor.find(user.role))){
 										li
-											a(href="/{1}".assign(item.name))= item.label
+											a(href=item.url)= item.label
 									- }
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -31,7 +31,7 @@
 				.nav-collapse
 					ul.nav.pull-right
 						li
-							form#login-form.navbar-form(action='/login', method='POST')
+							form#login-form.navbar-form(action='#{domain}login', method='POST')
 								input#userName.enter-key.input-small(type='text', name='usr', placeholder='User', autofocus='autofocus', required='required')
 								span &nbsp
 								input#password.enter-key.input-small(type='password', name='pwd', placeholder='Password', required='required')
