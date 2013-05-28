@@ -1,17 +1,21 @@
-form#crud-form.well
-	fieldset.form-horizontal
-		each field in m.fields
-			if field.type !== 'html'
-				.control-group(id='ctrl-group-'+field.name)
-					label.control-label(for=field.name)= field.label
-					- var parentName = ''
+form#crud-form.well.form-horizontal
+	ul#tabPanes.nav.nav-tabs
+		- var i = 0
+		each fields, label in m.form
+			li
+				a(href='#tab-'+i, data-toggle='tab')= label
+			- i++
+
+	.tab-content
+		- var i = 0
+		each fields, label in m.form
+			.tab-pane(id='tab-'+i)
+				each field in fields
 					include ../templates/field
-	fieldset
-		each field in m.fields
-			if field.type === 'html'
-				label(for=''+field.name)= field.label
-				- var parentName = ''
-				include ../templates/field	
+
+			- i++
+
 	.form-actions
 		a#cancel-btn.btn.btn-secondary(href='#', onClick='$.view.cancelBtnClick()') Cancelar
+		span &nbsp;
 		a#save-btn.btn.btn-primary(href='#', onClick='$.view.saveBtnClick()') Salvar

@@ -7,12 +7,12 @@ exports.attack = function(root, pathToConfig){
 
 	var express      = require('express')
 	  , srv          = express()
-	  , config       = require(root + pathToConfig) 
 	  , staticModels = require('./lib/model/staticModels')()
-	
+
 	log      = console.log
 	fs       = require('fs')
 	mustache = require('mustache')
+	config   = require(root + pathToConfig) 
 
 	// ======================================================
 	// configure server	
@@ -48,14 +48,8 @@ exports.attack = function(root, pathToConfig){
 	var base        = require('./lib/ctrl/ctrlBase')(srv, config)
 	  , pathToCtrls = (config.pathToCtrls) ? root+config.pathToCtrls : root+'/controllers'
 	  , ctrls       = fs.readdirSync(pathToCtrls)
-	  , domain      = (config.domain) ? '/{1}'.assign(config.domain) : ''
-	  , indexDomain = (config.domain) ? '/{1}'.assign(config.domain) : '/'
 	
 	menuItems   = []
-	
-	srv.get ( indexDomain     , base.auth, base.idx )
-	srv.post( domain+'/login' , base.login          )
-	srv.get ( domain+'/logout', base.logout         )
 	
 	ctrls.forEach(function(file){
 		if (file.endsWith('.js')){
@@ -73,19 +67,19 @@ exports.attack = function(root, pathToConfig){
 	  , models          = fs.readdirSync(pathToModels)
 	  , modelExt        = (process.argv.find('mock')) ? require('./lib/model/modelExtMock')(srv) : require('./lib/model/modelExt')(srv)
 	  , modelValidation = require(pathToValidator)(srv)
-	  , ctrlCrud        = require('./lib/ctrl/ctrlCrud')
+	  , ctrlCrud        = require( './lib/ctrl/ctrlCrud' )
+
+	srv.m = staticModels
 	
 	function requireModel(modelPath){
 		var model  = require(modelPath)
 		  , domain = (config.domain) ? '/{1}/'.assign(config.domain) : '/'
 
-		srv.m[model.name] = []
-		srv.m[model.name].merge(model)
-		srv.m[model.name].merge(modelExt)
-		srv.m[model.name].merge(modelValidation)
+		model = srv.m[model.name] = model
+		model.merge(modelExt, false, false)
+		model.merge(modelValidation, false, false)
 		
-		srv.db.bind(srv.m[model.name].collectionName())
-		srv.m[model.name].start()
+		//log( model.collectionName() )
 		
 		if (model.routeTo10tcl){
 			menuItems.push({url: domain + model.name, label: model.label, onlyFor: model.onlyFor})
@@ -93,7 +87,10 @@ exports.attack = function(root, pathToConfig){
 		}
 	}
 
-	srv.m = staticModels
+	if (config.multiTenant){
+		requireModel( './lib/model/tenant.js' )
+	}
+	
 	models.forEach(function(file){
 		if (file.endsWith('.js')){
 			var modelPath = '{1}/{2}'.assign(pathToModels, file)
@@ -107,8 +104,8 @@ exports.attack = function(root, pathToConfig){
 	var pathToProfile = (config.pathToUser) ? root+config.pathToUser+'/profile' : './lib/model/profile'
  	requireModel(pathToUser)
  	requireModel(pathToProfile)
- 	srv.m.user.add(config.admin)
- 	srv.m.profile.add(config.admin)
+ 	srv.m.user.cache = [config.admin]
+ 	srv.m.profile.cache = [config.admin]
 
  	require('./lib/ctrl/ctrlProfile')(srv, base, config)
 

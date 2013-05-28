@@ -7,7 +7,7 @@
     "email": "fernandobbecker@gmail.com"
   },
   "dependencies": {
-    "express": "3.0.x",
+    "express": "3.2.x",
     "mongoskin": "0.3.x",
     "mustache": "*",
     "jade": "*",

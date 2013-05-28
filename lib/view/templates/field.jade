@@ -1,34 +1,68 @@
-.controls
-	case field.type
-		when 'date'
-			input.datepicker.input-small(type='text', name=field.name, data-date-format='dd/mm/yyyy', data-bind)
-		when 'image'
-			input(type='file', name=field.name, data-bind)
-		when 'reference'
-			if srv.m[field.to].length > 30
-				input(type='hidden', name=field.name+'._id', data-field=field.name, data-bind)
-				input.ref-desc(type='text', name=field.name+'.desc', data-ref=field.to, data-field=field.name, data-bind)
-			else
+case field.type
+	when 'date'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input.datepicker.input-small(type='text', name=field.name, data-date-format='dd/mm/yyyy', data-bind)
+	when 'image'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='file', name=field.name, data-bind)
+	when 'reference'
+		if srv.m[field.to].length > 30
+			.control-group(id='ctrl-group-'+field.name)
+				label.control-label(for=field.name)= field.label
+				.controls
+					input(type='hidden', name=field.name+'._id', data-field=field.name, data-bind)
+					input.ref-desc(type='text', name=field.name+'.desc', data-ref=field.to, data-field=field.name, data-bind)
+		else
+			.control-group(id='ctrl-group-'+field.name)
+				label.control-label(for=field.name)= field.label
+				.controls
+					select(name=field.name+'._id', data-field=field.name, data-bind)
+						option
+						each option in srv.m[field.to].options()
+							option(value=option._id)= option.desc
+	when 'category'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
 				select(name=field.name+'._id', data-field=field.name, data-bind)
 					option
-					each option in srv.m[field.to].options()
-						option(value=option._id)= option.desc
-		when 'category'
-			select(name=field.name+'._id', data-field=field.name, data-bind)
-				option
-				each option in field.options
-					option(value=option)= option
-		when 'html'
-			textarea.html-editor(name=field.name, data-bind)
-		when 'json'
-			textarea.json-editor(id=field.name, name=field.name, data-bind)
-		when 'email'
-			input(type='email', name=field.name, data-bind)
-		when 'tel'
-			input(type='tel', name=field.name, data-bind)
-		when 'password'
-			input(type='password', name=field.name, data-bind)
-		when 'read only'
-			input(type='text', disabled, data-bind)
-		default
-			input(type='text', name=field.name, data-bind)
+					each option in field.options
+						option(value=option)= option
+	when 'text'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				textarea(name=field.name, data-bind)
+	when 'html'
+		textarea.html-editor(name=field.name, data-bind)
+	when 'json'
+		textarea.json-editor(id=field.name, name=field.name, data-bind)
+	when 'email'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='email', name=field.name, data-bind)
+	when 'tel'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='tel', name=field.name, data-bind)
+	when 'password'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='password', name=field.name, data-bind)
+	when 'read only'
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='text', disabled, data-bind)
+	default
+		.control-group(id='ctrl-group-'+field.name)
+			label.control-label(for=field.name)= field.label
+			.controls
+				input(type='text', name=field.name, data-bind)

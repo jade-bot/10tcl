@@ -19,6 +19,8 @@ A config file must contain:
     module.exports = {
         // used as title for your pages
         brand: 'Day of the Tentacle IS HERE!',
+        // used to specify a subdomain other than the index
+        domain: 'admin',
         // used to assemble the connection string to your mongodb instance
         db: { 
             usr: 'Purple',
